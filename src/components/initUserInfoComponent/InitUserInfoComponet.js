@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import ProfileContainer from "../profileContainer/ProfileContainer";
+import './style.css'
 
 export default function InitUserInfoComponent(props) {
     const [data, setData] = useState([]);
@@ -8,7 +8,7 @@ export default function InitUserInfoComponent(props) {
     useEffect(() => {
         fetchData();
     }, [])
-    
+
 
     async function fetchData() {
         setLoading(true);
@@ -18,12 +18,23 @@ export default function InitUserInfoComponent(props) {
         setLoading(false);
     }
 
+
     return (
         <div>
-                {
-                    loading? <h1>Loading</h1>:
-                    data.map(user => (<ProfileContainer user={user}/>))
-                }
+            {
+                data.map(user => (
+                    <div className="container">
+                        <div className='photo'><img src={loading ? "/public/logo192.png" : user.avatar} alt="" /></div>
+                        <div className='info'>
+                            <p>First Name: {loading ? "loading" : user.first_name} </p>
+                            <p>Last Name:   {loading ? "loading" : user.last_name}</p>
+                            <p>Email:   {loading ? "loading" : user.email}</p>
+                        </div>
+                    </div>
+
+
+                ))
+            }
         </div>
     )
 }
