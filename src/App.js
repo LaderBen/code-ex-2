@@ -4,7 +4,7 @@ import InitUserInfoComponent from './components/initUserInfoComponent/InitUserIn
 function App() {
   return (
     <div className="App">
-      <InitUserInfoComponent/>
+        <InitUserInfoComponent />
     </div>
   );
 }
