@@ -85,7 +85,7 @@ export default function InitUserInfoComponent(props) {
 
 
     return (
-        <div>
+        <div className="footer">
             <h2>Filter</h2>
             input name email or user id:<input id="first_name" type="text" value={searchName} onChange={handleChangeName} /><button onClick={handleClickSearch}>search</button>
             <hr />
@@ -102,6 +102,8 @@ export default function InitUserInfoComponent(props) {
                 ))
             }
             <p>last update time: {date.toLocaleString()}</p>
+            <h2>Late Simulation</h2>
+            <hr/>
             <button onClick={handleLate}>Simulate Late</button>
         </div>
     )
