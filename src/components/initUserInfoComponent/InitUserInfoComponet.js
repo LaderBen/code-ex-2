@@ -3,15 +3,22 @@ import './style.css'
 import LoadingComponent from "../loadingComponent/LoadingComponent";
 
 export default function InitUserInfoComponent(props) {
+    const [searchName, setSearchName] = useState("");
     const [data, setData] = useState([]);
+    const [filtedData, setFiltedData] = useState([]);
     const [loading, setLoading] = useState(true);
     const [late, setLate] = useState(2);
+    const [isLate, setIsLate] = useState(false);
     let [date, setDate] = useState([]);
 
 
     useEffect(() => {
         fetchData();
-    })
+    }, [data])
+
+    useEffect(() => {
+        handleClickSearch();
+    }, [data])
 
     async function fetchData() {
 
@@ -27,7 +34,7 @@ export default function InitUserInfoComponent(props) {
                 setData(json.data);
                 setLoading(false);
                 setDate(new Date());
-                console.log(data);
+                handleClickSearch();
             })
             .catch(error => {
                 clearTimeout(timeout);
@@ -35,15 +42,38 @@ export default function InitUserInfoComponent(props) {
                 console.error("Time Out!" + error);
             })
     }
-    
+
+
 
 
     function handleLate() {
-        setLate(5);
-        setLoading(true);
-        setData([]);
-        fetchData();
+        setIsLate(!isLate);
+        if (isLate) {
+            alert("respone will be late");
+            setLate(5);
+            setLoading(true);
+            setData([]);
+            fetchData();
+        } else {
+            alert("respone will be normal");
+            setLate(2);
+            setLoading(true);
+            setData([]);
+            fetchData();
+
+        }
     }
+
+    const handleChangeName = (event) => {
+        setSearchName(event.target.value);
+    };
+
+    const handleClickSearch = () => {
+        const buf = data.filter(user => { return user.first_name.toLowerCase().includes(searchName.toLowerCase()) || user.last_name.toLowerCase().includes(searchName.toLowerCase()) || user.email.toLowerCase().includes(searchName.toLowerCase()) || user.id === Number(searchName) });
+        setFiltedData(buf);
+        console.log(filtedData);
+
+    };
 
     const loadingComponent = [];
 
@@ -53,10 +83,14 @@ export default function InitUserInfoComponent(props) {
 
 
 
+
     return (
         <div>
+            <h2>Filter</h2>
+            input name email or user id:<input id="first_name" type="text" value={searchName} onChange={handleChangeName} /><button onClick={handleClickSearch}>search</button>
+            <hr />
             {
-                loading ? loadingComponent : data.map(user => (
+                loading ? loadingComponent : filtedData.map(user => (
                     <div className="container">
                         <div className='photo'><img src={user.avatar} alt="" /></div>
                         <div className='info'>
