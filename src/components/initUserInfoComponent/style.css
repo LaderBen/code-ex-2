@@ -17,4 +17,6 @@
 .photo{
     display: inline-block;
     margin: 2%;
+    height: 128px;
+    width: 128px;
 }
